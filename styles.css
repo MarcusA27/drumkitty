@@ -1,17 +1,9 @@
 :root {
-  --paper: #f6f5f2;
-  --ink: #14110f;
-  --rule: rgba(20, 17, 15, 0.12);
-  --mark-filter: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0d0c0b;
-    --ink: #f2efe9;
-    --rule: rgba(242, 239, 233, 0.14);
-    --mark-filter: invert(1);
-  }
+  color-scheme: dark;
+  --paper: #0d0c0b;
+  --ink: #f2efe9;
+  --rule: rgba(242, 239, 233, 0.14);
+  --mark-filter: invert(1);
 }
 
 .page-black {
