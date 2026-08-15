@@ -15,7 +15,7 @@
 }
 
 .page-black {
-  --paper: #0d0c0b;
+  --paper: #000;
   --ink: #f2efe9;
   --rule: rgba(242, 239, 233, 0.14);
   --mark-filter: invert(1);
@@ -209,29 +209,6 @@ body {
 
 .page-black .page {
   flex: 1 0 auto;
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 8% 12%, rgba(242, 239, 233, 0.05), transparent 29%),
-    radial-gradient(circle at 92% 72%, rgba(242, 239, 233, 0.035), transparent 30%);
-}
-
-.page-black .page::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  background: #fff;
-  filter: url("#kits-noise") grayscale(100%);
-  mix-blend-mode: screen;
-  opacity: 0.06;
-  pointer-events: none;
-}
-
-.page-black .page > * {
-  position: relative;
-  z-index: 1;
 }
 
 .kits {
