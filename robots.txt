@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://drumkitty.com/sitemap.xml
