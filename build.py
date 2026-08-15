@@ -7,7 +7,7 @@ homepage. Run after editing partials/ or adding or renaming samples:
     python3 build.py
 
 To add a kit: drop the renamed wavs in assets/kits/<slug>/, add an entry to
-KITS below, and copy kits/2016.html to kits/<slug>.html as a starting point.
+KITS below, and copy an existing kit page to kits/<slug>.html as a starting point.
 """
 
 import re
@@ -18,22 +18,6 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 
 KITS = [
-    {
-        "slug": "2016",
-        "title": "2016",
-        "genre": "emo rap",
-        "art": "assets/kit-2016.webp",
-        "in_grid": True,
-        "featured": True,
-        "groups": [
-            ("808", "808", ["808-c1", "808-g1", "808-punchy", "808-deep-punchy"]),
-            ("Kick", "kick", ["kick-emo-01", "kick-emo-02", "kick-808-booming", "kick-808-deep"]),
-            ("Snare", "snare", ["snare-emo-01", "snare-emo-02", "snare-emo-rap", "snare-crisp"]),
-            ("Clap", "clap", ["clap-emo", "clap-emo-sharp"]),
-            ("Hat", "hat", ["hat-emo-01", "hat-emo-02", "hat-emo-sharp", "hat-crispy", "hat-sharp", "hat-metallic"]),
-            ("Perc", "perc", ["perc-emo-01", "perc-emo-02", "perc-crisp", "perc-soft"]),
-        ],
-    },
     {
         "slug": "2am",
         "title": "2AM",
@@ -237,9 +221,20 @@ def render(partial, tokens):
     return text
 
 
+def masthead(base, home):
+    return (
+        '  <header class="masthead">\n'
+        '    <a class="brand" href="%s">\n'
+        '      <img class="brand__mark" src="%sassets/drumkitty.png" alt="">\n'
+        '      <span class="brand__name">drumkitty</span>\n'
+        '    </a>\n'
+        '  </header>'
+    ) % (home, base)
+
+
 index = ROOT / "index.html"
 html = index.read_text()
-html = splice(html, "header", render("header.html", {"base": "", "home": "/"}), index)
+html = splice(html, "header", render("header.html", {"masthead": masthead("", "/")}), index)
 html = splice(html, "footer", render("footer.html", {"base": "", "home": "/"}), index)
 html = splice(html, "kits", grid_cards(), index)
 index.write_text(html)
@@ -250,7 +245,7 @@ for kit in KITS:
     if not page.exists():
         raise SystemExit("missing page for kit %r: %s" % (kit["slug"], page.relative_to(ROOT)))
     html = page.read_text()
-    html = splice(html, "header", render("header.html", {"base": "../", "home": "../"}), page)
+    html = splice(html, "header", render("header.html", {"masthead": masthead("../", "../")}), page)
     html = splice(html, "footer", render("footer.html", {"base": "../", "home": "../"}), page)
     html = splice(html, "samples", sample_rows(kit), page)
     page.write_text(html)
