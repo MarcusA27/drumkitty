@@ -22,7 +22,7 @@ KITS = [
         "slug": "2am",
         "title": "2AM",
         "genre": "rnb rap",
-        "art": "assets/kit-2am.webp",
+        "art": "assets/cards/2am.webp",
         "in_grid": True,
         "groups": [
             ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-punchy-04"]),
@@ -37,7 +37,7 @@ KITS = [
         "slug": "halo",
         "title": "Halo",
         "genre": "pluggnb",
-        "art": "assets/kit-halo.webp",
+        "art": "assets/cards/halo.webp",
         "in_grid": True,
         "groups": [
             ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-deep"]),
@@ -52,7 +52,7 @@ KITS = [
         "slug": "bando",
         "title": "Bando",
         "genre": "trap",
-        "art": "assets/kit-bando.webp",
+        "art": "assets/cards/bando.webp",
         "in_grid": True,
         "groups": [
             ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-punchy-04"]),
@@ -67,7 +67,7 @@ KITS = [
         "slug": "redline",
         "title": "Redline",
         "genre": "rage trap",
-        "art": "assets/kit-redline.png",
+        "art": "assets/cards/redline.webp",
         "in_grid": True,
         "groups": [
             ("808", "808", ["808-distorted-01", "808-distorted-02", "808-distorted-03", "808-distorted-04"]),
@@ -82,7 +82,7 @@ KITS = [
         "slug": "drift",
         "title": "Drift",
         "genre": "ambient chill",
-        "art": "assets/kit-drift.jpg",
+        "art": "assets/cards/drift.webp",
         "in_grid": True,
         "groups": [
             ("808", "808", ["808-deep-01", "808-deep-02", "808-deep-03", "808-ambient"]),
@@ -97,7 +97,7 @@ KITS = [
         "slug": "slide",
         "title": "Slide",
         "genre": "drill",
-        "art": "assets/kit-slide.png",
+        "art": "assets/cards/slide.webp",
         "in_grid": True,
         "groups": [
             ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-punchy-04"]),
@@ -194,7 +194,7 @@ def grid_cards():
             '        <li class="%s">\n'
             '          <a class="kit-card__link" href="kits/%s.html">\n'
             '%s'
-            '            <img class="kit-card__art" src="%s" alt="%s %s drum kit cover art">\n'
+            '            <img class="kit-card__art" src="%s" alt="%s %s drum kit cover art" loading="lazy" decoding="async">\n'
             '            <span class="kit-card__name">%s</span>\n'
             '            <span class="kit-card__genre">%s</span>\n'
             "          </a>\n"

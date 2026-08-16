@@ -106,9 +106,31 @@ body {
   padding: clamp(36px, 5vw, 72px) clamp(20px, 5vw, 56px);
   border-top: 0;
   color: #f2efe9;
-  background:
-    linear-gradient(to top, rgba(8, 7, 6, 0.94), rgba(8, 7, 6, 0.48)),
-    url("assets/hero-untitled-40.png") 32% 22% / cover;
+  background: #0d0c0b;
+}
+
+.site-footer::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 7, 6, 0.94), rgba(8, 7, 6, 0.48));
+  pointer-events: none;
+}
+
+.site-footer__background {
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 32% 22%;
+}
+
+.site-footer__brand,
+.site-footer__note {
+  z-index: 2;
 }
 
 .site-footer__brand {
@@ -170,6 +192,13 @@ body {
   .site-footer__note {
     max-width: none;
     text-align: left;
+  }
+}
+
+@media (max-width: 767px) {
+  .kits__noise,
+  .masthead::before {
+    display: none;
   }
 }
 
