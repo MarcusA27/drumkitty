@@ -20,7 +20,7 @@ if DIST.exists():
     shutil.rmtree(DIST)
 DIST.mkdir()
 
-for filename in ("index.html", "styles.css", "kit.js", "robots.txt", "sitemap.xml"):
+for filename in ("index.html", "about.html", "styles.css", "kit.js", "site.js", "robots.txt", "sitemap.xml"):
     shutil.copy2(ROOT / filename, DIST / filename)
 
 for directory in ("assets", "kits"):
