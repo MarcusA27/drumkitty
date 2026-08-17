@@ -21,10 +21,10 @@ ROOT = Path(__file__).parent
 
 
 def kit_samples(slug, folder):
-    """Return every WAV stem in a kit category, including nested folders."""
+    """Return every WAV filename in a kit category, including nested folders."""
     base = ROOT / "assets/kits" / slug / folder
     return [
-        str(path.relative_to(base).with_suffix(""))
+        str(path.relative_to(base))
         for path in sorted(base.rglob("*"), key=lambda item: str(item).lower())
         if path.is_file() and path.suffix.lower() == ".wav"
     ]
@@ -244,7 +244,8 @@ def sample_rows(kit):
         rows.append('        <p class="samples__group">%s</p>' % label)
         rows.append('        <ul class="samples__list">')
         for name in names:
-            path = ROOT / "assets/kits" / kit["slug"] / folder / ("%s.wav" % name)
+            filename = name if Path(name).suffix.lower() == ".wav" else "%s.wav" % name
+            path = ROOT / "assets/kits" / kit["slug"] / folder / filename
             if not path.exists():
                 raise SystemExit("missing sample: %s" % path.relative_to(ROOT))
             mono, seconds = read_mono(path)
@@ -253,7 +254,7 @@ def sample_rows(kit):
                 '<span class="sample__icon" aria-hidden="true"></span>'
                 '<span class="sample__name">%s</span>%s'
                 '<span class="sample__time">%.2fs</span></button></li>'
-                % (kit["slug"], quote(folder, safe="/"), quote("%s.wav" % name, safe="/"), escape(name), svg(peaks(mono)), seconds)
+                % (kit["slug"], quote(folder, safe="/"), quote(filename, safe="/"), escape(str(Path(name).with_suffix(""))), svg(peaks(mono)), seconds)
             )
         rows.append("        </ul>")
     return "\n".join(rows)
