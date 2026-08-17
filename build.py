@@ -11,71 +11,96 @@ KITS below, and copy an existing kit page to kits/<slug>.html as a starting poin
 """
 
 import re
+import shutil
 import struct
 import wave
+from html import escape
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).parent
+
+
+def kit_samples(slug, folder):
+    """Return every WAV filename in a kit category, including nested folders."""
+    base = ROOT / "assets/kits" / slug / folder
+    return [
+        str(path.relative_to(base))
+        for path in sorted(base.rglob("*"), key=lambda item: str(item).lower())
+        if path.is_file() and path.suffix.lower() == ".wav"
+    ]
 
 KITS = [
     {
         "slug": "2am",
-        "title": "2AM",
-        "genre": "rnb rap",
+        "title": "Pierre's Soss",
+        "genre": "trap",
         "art": "assets/cards/2am.webp",
         "in_grid": True,
         "groups": [
-            ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-punchy-04"]),
-            ("Kick", "kick", ["kick-hiphop", "kick-hiphop-punchy", "kick-punchy-01", "kick-punchy-02"]),
-            ("Snare", "snare", ["snare-hiphop", "snare-punchy-01", "snare-punchy-02", "snare-punchy-03"]),
-            ("Clap", "clap", ["clap-hiphop", "clap-hiphop-smooth", "clap-oneshot-01", "clap-oneshot-02"]),
-            ("Hat", "hat", ["hat-smooth-01", "hat-smooth-02", "hat-smooth-03", "hat-smooth-04"]),
-            ("Perc", "perc", ["perc-modern-01", "perc-modern-02", "perc-sharp"]),
+            ("808", "808", kit_samples("2am", "808")),
+            ("Kick", "kick", kit_samples("2am", "kick")),
+            ("Snare", "snare", kit_samples("2am", "snare")),
+            ("Clap", "clap", kit_samples("2am", "clap")),
+            ("Hat", "hat", kit_samples("2am", "hat")),
+            ("Open Hat", "open-hat", kit_samples("2am", "open-hat")),
+            ("Perc", "perc", kit_samples("2am", "perc")),
+            ("Vox", "vox", kit_samples("2am", "vox")),
+            ("Tag", "tag", kit_samples("2am", "tag")),
         ],
     },
     {
         "slug": "halo",
-        "title": "Halo",
-        "genre": "pluggnb",
+        "title": "Futuristic Essentials",
+        "genre": "glo trap",
         "art": "assets/cards/halo.webp",
         "in_grid": True,
         "groups": [
-            ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-deep"]),
-            ("Kick", "kick", ["kick-plugg-01", "kick-plugg-02", "kick-plugg-03", "kick-punchy"]),
-            ("Snare", "snare", ["snare-plugg-01", "snare-plugg-02", "snare-plugg-03", "snare-plugg-04"]),
-            ("Clap", "clap", ["clap-crisp-01", "clap-crisp-02", "clap-oneshot-01", "clap-oneshot-02"]),
-            ("Hat", "hat", ["hat-bright-01", "hat-bright-02", "hat-bright-03", "hat-plugg"]),
-            ("Perc", "perc", ["perc-plugg-01", "perc-plugg-02", "perc-tight"]),
+            ("808", "1 808s", kit_samples("halo", "1 808s")),
+            ("Hat", "2 Hats", kit_samples("halo", "2 Hats")),
+            ("Kick", "3 Kicks", kit_samples("halo", "3 Kicks")),
+            ("Snare", "4 Snares", kit_samples("halo", "4 Snares")),
+            ("Clap", "5 Claps", kit_samples("halo", "5 Claps")),
+            ("SFX", "6 Sfx", kit_samples("halo", "6 Sfx")),
+            ("Perc", "9 Percs", kit_samples("halo", "9 Percs")),
+            ("Hit", "11 Hits", kit_samples("halo", "11 Hits")),
+            ("Vox", "12 Vox", kit_samples("halo", "12 Vox")),
+            ("One Shot", "13 One Shots", kit_samples("halo", "13 One Shots")),
         ],
     },
     {
         "slug": "bando",
-        "title": "Bando",
-        "genre": "trap",
+        "title": "Dark Oxygen",
+        "genre": "dark trap",
         "art": "assets/cards/bando.webp",
         "in_grid": True,
+        "grid_order": 3,
         "groups": [
-            ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-punchy-04"]),
-            ("Kick", "kick", ["kick-punchy-01", "kick-punchy-02", "kick-trap-punchy", "kick-trappy"]),
-            ("Snare", "snare", ["snare-trap-sharp-01", "snare-trap-sharp-02", "snare-oneshot-01", "snare-oneshot-02"]),
-            ("Clap", "clap", ["clap-sharp-01", "clap-sharp-02", "clap-trap-sharp-01", "clap-trap-sharp-02"]),
-            ("Hat", "hat", ["hat-sharp-01", "hat-sharp-02", "hat-oneshot-01", "hat-oneshot-02"]),
-            ("Perc", "perc", ["perc-metallic-01", "perc-metallic-02", "perc-metallic-03", "perc-sharp"]),
+            ("808", "808s", kit_samples("bando", "808s")),
+            ("Hat", "Hats", kit_samples("bando", "Hats")),
+            ("Snare", "Snares", kit_samples("bando", "Snares")),
+            ("Clap", "Claps", kit_samples("bando", "Claps")),
+            ("Open Hat", "Open Hats", kit_samples("bando", "Open Hats")),
+            ("Perc", "Percs", kit_samples("bando", "Percs")),
+            ("Vox", "Vox", kit_samples("bando", "Vox")),
         ],
     },
     {
         "slug": "redline",
-        "title": "Redline",
-        "genre": "rage trap",
-        "art": "assets/cards/redline.webp",
+        "title": "DEMISE",
+        "genre": "trap",
+        "art": "assets/cards/redline.png",
         "in_grid": True,
+        "grid_order": 2,
         "groups": [
-            ("808", "808", ["808-distorted-01", "808-distorted-02", "808-distorted-03", "808-distorted-04"]),
-            ("Kick", "kick", ["kick-trap-01", "kick-trap-02", "kick-trap-03", "kick-trap-04"]),
-            ("Snare", "snare", ["snare-agg-01", "snare-agg-02", "snare-oneshot-01", "snare-oneshot-02"]),
-            ("Clap", "clap", ["clap-agg-01", "clap-agg-02", "clap-agg-03", "clap-agg-04"]),
-            ("Hat", "hat", ["hat-agg-01", "hat-agg-02", "hat-oneshot-01", "hat-oneshot-02"]),
-            ("Perc", "perc", ["perc-agg-01", "perc-agg-02", "perc-agg-03", "perc-agg-04"]),
+            ("808", "808s", kit_samples("redline", "808s")),
+            ("Kick", "very few kicks", kit_samples("redline", "very few kicks")),
+            ("Snare", "snares", kit_samples("redline", "snares")),
+            ("Clap", "claps", kit_samples("redline", "claps")),
+            ("Hat", "hats", kit_samples("redline", "hats")),
+            ("Open Hat", "open hat", kit_samples("redline", "open hat")),
+            ("Perc", "percs", kit_samples("redline", "percs")),
+            ("Melody One Shot", "melody one shots", kit_samples("redline", "melody one shots")),
         ],
     },
     {
@@ -114,22 +139,73 @@ KITS = [
 BARS = 120
 
 
-def read_mono(path):
-    with wave.open(str(path), "rb") as w:
-        channels, width, rate, frames = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
-        raw = w.readframes(frames)
+def read_float_wav(path):
+    """Read WAV files encoded as IEEE floating-point PCM (format tag 3)."""
+    with open(path, "rb") as source:
+        if source.read(4) != b"RIFF":
+            raise ValueError("not a RIFF WAV: %s" % path)
+        source.read(4)
+        if source.read(4) != b"WAVE":
+            raise ValueError("not a WAVE file: %s" % path)
 
-    if width == 2:
+        fmt = data = None
+        while chunk_id := source.read(4):
+            chunk_size = struct.unpack("<I", source.read(4))[0]
+            chunk = source.read(chunk_size)
+            if chunk_size % 2:
+                source.read(1)
+            if chunk_id == b"fmt ":
+                fmt = chunk
+            elif chunk_id == b"data":
+                data = chunk
+
+    if not fmt or data is None:
+        raise ValueError("missing WAV data in %s" % path)
+    format_tag, channels, rate, _, _, width = struct.unpack("<HHIIHH", fmt[:16])
+    if format_tag != 3:
+        raise ValueError("unhandled WAV format %d in %s" % (format_tag, path))
+    if width == 32:
+        vals = struct.unpack("<%df" % (len(data) // 4), data)
+    elif width == 64:
+        vals = struct.unpack("<%dd" % (len(data) // 8), data)
+    else:
+        raise ValueError("unhandled floating-point width %d in %s" % (width, path))
+
+    if channels > 1:
+        vals = [max(vals[i:i + channels], key=abs) for i in range(0, len(vals) - channels + 1, channels)]
+    return vals, len(vals) / float(rate)
+
+
+def read_mono(path):
+    try:
+        with wave.open(str(path), "rb") as w:
+            channels, width, rate, frames = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
+            raw = w.readframes(frames)
+    except wave.Error:
+        try:
+            return read_float_wav(path)
+        except (ValueError, struct.error):
+            # Some packs label Ogg/Vorbis audio as .wav. Keep it in the kit;
+            # the browser can still attempt playback even without a preview.
+            return [0.0], 0.0
+
+    if width == 1:
+        vals = [v - 128 for v in raw]
+        scale = 128.0
+    elif width == 2:
         vals = struct.unpack("<%dh" % (len(raw) // 2), raw)
         scale = 32768.0
     elif width == 3:
         vals = []
-        for i in range(0, len(raw), 3):
+        for i in range(0, len(raw) - len(raw) % 3, 3):
             v = raw[i] | (raw[i + 1] << 8) | (raw[i + 2] << 16)
             if v & 0x800000:
                 v -= 0x1000000
             vals.append(v)
         scale = 8388608.0
+    elif width == 4:
+        vals = struct.unpack("<%di" % (len(raw) // 4), raw)
+        scale = 2147483648.0
     else:
         raise SystemExit("unhandled sample width %d in %s" % (width, path))
 
@@ -169,16 +245,17 @@ def sample_rows(kit):
         rows.append('        <p class="samples__group">%s</p>' % label)
         rows.append('        <ul class="samples__list">')
         for name in names:
-            path = ROOT / "assets/kits" / kit["slug"] / folder / ("%s.wav" % name)
+            filename = name if Path(name).suffix.lower() == ".wav" else "%s.wav" % name
+            path = ROOT / "assets/kits" / kit["slug"] / folder / filename
             if not path.exists():
                 raise SystemExit("missing sample: %s" % path.relative_to(ROOT))
             mono, seconds = read_mono(path)
             rows.append(
-                '          <li><button class="sample" type="button" data-src="../assets/kits/%s/%s/%s.wav">'
+                '          <li><button class="sample" type="button" data-src="../assets/kits/%s/%s/%s">'
                 '<span class="sample__icon" aria-hidden="true"></span>'
                 '<span class="sample__name">%s</span>%s'
                 '<span class="sample__time">%.2fs</span></button></li>'
-                % (kit["slug"], folder, name, name, svg(peaks(mono)), seconds)
+                % (kit["slug"], quote(folder, safe="/"), quote(filename, safe="/"), escape(str(Path(name).with_suffix(""))), svg(peaks(mono)), seconds)
             )
         rows.append("        </ul>")
     return "\n".join(rows)
@@ -186,9 +263,11 @@ def sample_rows(kit):
 
 def grid_cards():
     cards = []
-    for kit in KITS:
-        if not kit["in_grid"]:
-            continue
+    kits = sorted(
+        (kit for kit in KITS if kit["in_grid"]),
+        key=lambda kit: kit.get("grid_order", KITS.index(kit)),
+    )
+    for kit in kits:
         card_class = "kit-card kit-card--featured" if kit.get("featured") else "kit-card"
         label = '            <span class="kit-card__label">Featured kit</span>\n' if kit.get("featured") else ""
         cards.append(
@@ -262,3 +341,23 @@ for kit in KITS:
     html = splice(html, "samples", sample_rows(kit), page)
     page.write_text(html)
     print("built kits/%s.html (%d samples)" % (kit["slug"], sum(len(g[2]) for g in kit["groups"])))
+
+
+def build_dist():
+    """Create the static asset directory expected by Wrangler."""
+    dist = ROOT / "dist"
+    if dist.exists():
+        shutil.rmtree(dist)
+    dist.mkdir()
+
+    for filename in ("index.html", "about.html", "styles.css", "kit.js", "site.js", "robots.txt", "sitemap.xml"):
+        shutil.copy2(ROOT / filename, dist / filename)
+
+    for directory in ("assets", "kits"):
+        shutil.copytree(ROOT / directory, dist / directory)
+
+    print("built dist/")
+
+
+if __name__ == "__main__":
+    build_dist()
