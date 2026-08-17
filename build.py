@@ -11,6 +11,7 @@ KITS below, and copy an existing kit page to kits/<slug>.html as a starting poin
 """
 
 import re
+import shutil
 import struct
 import wave
 from html import escape
@@ -340,3 +341,23 @@ for kit in KITS:
     html = splice(html, "samples", sample_rows(kit), page)
     page.write_text(html)
     print("built kits/%s.html (%d samples)" % (kit["slug"], sum(len(g[2]) for g in kit["groups"])))
+
+
+def build_dist():
+    """Create the static asset directory expected by Wrangler."""
+    dist = ROOT / "dist"
+    if dist.exists():
+        shutil.rmtree(dist)
+    dist.mkdir()
+
+    for filename in ("index.html", "about.html", "styles.css", "kit.js", "site.js", "robots.txt", "sitemap.xml"):
+        shutil.copy2(ROOT / filename, dist / filename)
+
+    for directory in ("assets", "kits"):
+        shutil.copytree(ROOT / directory, dist / directory)
+
+    print("built dist/")
+
+
+if __name__ == "__main__":
+    build_dist()
