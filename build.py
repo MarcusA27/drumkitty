@@ -94,18 +94,19 @@ KITS = [
         ],
     },
     {
-        "slug": "slide",
-        "title": "Slide",
-        "genre": "drill",
-        "art": "assets/cards/slide.webp",
+        "slug": "vhs",
+        "title": "VHS",
+        "genre": "vintage drums",
+        "art": "assets/cards/vhs.webp",
         "in_grid": True,
         "groups": [
-            ("808", "808", ["808-punchy-01", "808-punchy-02", "808-punchy-03", "808-punchy-04"]),
-            ("Kick", "kick", ["kick-drill", "kick-modern-01", "kick-modern-02", "kick-modern-03"]),
-            ("Snare", "snare", ["snare-drill", "snare-oneshot-01", "snare-oneshot-02", "snare-oneshot-03"]),
-            ("Clap", "clap", ["clap-drill", "clap-modern-01", "clap-modern-02", "clap-modern-03"]),
-            ("Hat", "hat", ["hat-crisp-01", "hat-crisp-02", "hat-oneshot-01", "hat-oneshot-02"]),
-            ("Perc", "perc", ["perc-drill-01", "perc-drill-02", "perc-sharp-01", "perc-sharp-02"]),
+            ("Kick", "kick", ["bdr-01", "bdr-02", "bdr-04", "bdr-06", "bdr-09", "bdr-10", "bdr-101", "bdr-102", "bdr-103", "bdr-104", "bdr-107", "bdr-109", "bdr-201", "bdr-202", "bdr-204"]),
+            ("Snare", "snare", ["sdr-01", "sdr-02", "sdr-03", "sdr-05", "sdr-07", "sdr-08", "sdr-09", "sdr-10", "sdr-101", "sdr-102", "sdr-103", "sdr-104", "sdr-105", "sdr-106", "sdr-107", "sdr-110", "sdr-200", "sdr-201", "sdr-202", "sdr-203", "sdr-204", "sdr-205"]),
+            ("Hat", "hat", ["hcr-01", "hcr-02"]),
+            ("Tom", "tom", ["tom-02", "tom-03"]),
+            ("Perc", "perc", ["pcr-209", "pcr-210"]),
+            ("Melodic / FX", "melodic-fx", ["hor-01"]),
+            ("Other Drums", "drums", ["dr-04"]),
         ],
     },
 ]
@@ -224,6 +225,10 @@ def render(partial, tokens):
 def masthead(base, home):
     return (
         '  <header class="masthead">\n'
+        '    <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false">\n'
+        '      <span aria-hidden="true"></span>\n'
+        '      <span aria-hidden="true"></span>\n'
+        '    </button>\n'
         '    <a class="brand" href="%s">\n'
         '      <img class="brand__mark" src="%sassets/drumkitty.png" alt="">\n'
         '      <span class="brand__name">drumkitty</span>\n'
@@ -234,18 +239,25 @@ def masthead(base, home):
 
 index = ROOT / "index.html"
 html = index.read_text()
-html = splice(html, "header", render("header.html", {"masthead": masthead("", "/")}), index)
+html = splice(html, "header", render("header.html", {"base": "", "masthead": masthead("", "/")}), index)
 html = splice(html, "footer", render("footer.html", {"base": "", "home": "/"}), index)
 html = splice(html, "kits", grid_cards(), index)
 index.write_text(html)
 print("built index.html")
+
+about = ROOT / "about.html"
+html = about.read_text()
+html = splice(html, "header", render("header.html", {"base": "", "masthead": masthead("", "/")}), about)
+html = splice(html, "footer", render("footer.html", {"base": "", "home": "/"}), about)
+about.write_text(html)
+print("built about.html")
 
 for kit in KITS:
     page = ROOT / "kits" / ("%s.html" % kit["slug"])
     if not page.exists():
         raise SystemExit("missing page for kit %r: %s" % (kit["slug"], page.relative_to(ROOT)))
     html = page.read_text()
-    html = splice(html, "header", render("header.html", {"masthead": masthead("../", "../")}), page)
+    html = splice(html, "header", render("header.html", {"base": "../", "masthead": masthead("../", "../")}), page)
     html = splice(html, "footer", render("footer.html", {"base": "../", "home": "../"}), page)
     html = splice(html, "samples", sample_rows(kit), page)
     page.write_text(html)

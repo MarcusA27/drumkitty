@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>about — drumkitty</title>
+  <meta name="description" content="About the Drumkitty archive of drum sounds.">
+  <link rel="canonical" href="https://drumkitty.com/about.html">
+  <link rel="icon" href="assets/drumkitty.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- header:start -->
+  <svg class="noise-filter" aria-hidden="true">
+    <filter id="kits-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+    </filter>
+  </svg>
+  <header class="masthead">
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <a class="brand" href="/">
+      <img class="brand__mark" src="assets/drumkitty.png" alt="">
+      <span class="brand__name">drumkitty</span>
+    </a>
+  </header>
+  <div class="site-menu" id="site-menu" aria-hidden="true" inert>
+    <button class="site-menu__scrim" type="button" data-menu-close aria-label="Close menu"></button>
+    <aside class="site-menu__panel" role="dialog" aria-modal="true" aria-label="Site menu">
+      <button class="site-menu__close" type="button" data-menu-close aria-label="Close menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <nav class="site-menu__nav" aria-label="Main navigation">
+        <a href="about.html">about</a>
+      </nav>
+    </aside>
+  </div>
+  <script src="site.js" defer></script>
+  <!-- header:end -->
+
+  <main class="page">
+    <section class="about">
+      <div class="about__copy">
+        <p>Drumkitty is an independent archive of drum sounds.</p>
+        <p>Kits, one-shots, textures, and other sounds worth keeping — easy to find, preserved, and properly credited.</p>
+        <p>Made for producers. Maintained because the internet loses things.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer:start -->
+<footer class="site-footer">
+    <img class="site-footer__background" src="assets/hero-untitled-40-960.webp" srcset="assets/hero-untitled-40-960.webp 960w, assets/hero-untitled-40-1800.webp 1800w" sizes="100vw" loading="lazy" decoding="async" alt="">
+    <a class="site-footer__brand" href="/" aria-label="drumkitty home">
+      <img class="site-footer__mark" src="assets/drumkitty.png" alt="">
+      <span class="site-footer__name">drumkitty</span>
+    </a>
+    <a class="site-footer__note" href="https://studiodaemon.com">a visual-audio project by Daemon</a>
+  </footer>
+  <!-- footer:end -->
+</body>
+</html>
