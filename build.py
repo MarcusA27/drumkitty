@@ -72,7 +72,7 @@ KITS = [
         "slug": "bando",
         "title": "Dark Oxygen",
         "genre": "dark trap",
-        "art": "assets/cards/bando.webp",
+        "art": "assets/cards/bando.png",
         "in_grid": True,
         "grid_order": 3,
         "groups": [
