@@ -104,6 +104,22 @@ KITS = [
         ],
     },
     {
+        "slug": "asterisk",
+        "title": "Asterisk Archive",
+        "genre": "trap",
+        "art": "assets/cards/asterisk.webp",
+        "in_grid": True,
+        "groups": [
+            ("808", "808s", kit_samples("asterisk", "808s")),
+            ("Kick", "Kicks", kit_samples("asterisk", "Kicks")),
+            ("Snare", "Snares", kit_samples("asterisk", "Snares")),
+            ("Clap", "Claps", kit_samples("asterisk", "Claps")),
+            ("Hat", "hh", kit_samples("asterisk", "hh")),
+            ("Perc", "Percs", kit_samples("asterisk", "Percs")),
+            ("FX", "Fx", kit_samples("asterisk", "Fx")),
+        ],
+    },
+    {
         "slug": "drift",
         "title": "Drift",
         "genre": "ambient chill",
